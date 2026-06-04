@@ -1,0 +1,114 @@
+sites:
+    -
+        name: Example Website
+        enabled: true
+        serveAs: https
+
+        match:
+            domains:
+                - example.com
+                - www.example.com
+                - localhost
+
+        listen:
+            ip: 127.0.0.1
+            ports:
+                http: 8080
+                https: 8443
+
+        ssl:
+            enabled: true
+            mode: auto
+            provider: letsEncrypt
+            email: admin@example.com
+            storage: /var/lib/rpsiod/ssl/example.com
+            challenge: http
+            renewBefore: 30d
+
+        redirects:
+            httpToHttps: false
+            www:
+                enabled: false
+                mode: apexToWww
+                status: 301
+
+        routing:
+            type: static
+
+        static:
+            root: /root/rpsiod/examples/www/example.com
+            index:
+                - index.html
+                - index.htm
+            fallback:
+            directoryListing: false
+
+        php:
+            enabled: false
+            mode: fpm
+
+            security:
+                allowPathInfo: false
+                blockDirectAccess:
+                    - .env
+                    - composer.json
+                    - composer.lock
+                    - .git
+                    - .gitignore
+                    - .htaccess
+                    - vendor
+                    - storage
+
+        maintenance:
+            enabled: false
+            status: 503
+            page: /root/rpsiod/examples/www/errors/maintenance.html
+
+        errors:
+            pages:
+                404: /root/rpsiod/examples/www/errors/404.html
+                500: /root/rpsiod/examples/www/errors/500.html
+                503: /root/rpsiod/examples/www/errors/maintenance.html
+
+        security:
+            maxBodySize: 25mb
+            hideServerHeader: true
+            allowSymlinks: false
+
+            allowedMethods:
+                - GET
+                - HEAD
+
+        limits:
+            rateLimit:
+                enabled: false
+                requests: 100
+                window: 1m
+
+        compression:
+            enabled: true
+
+            algorithms:
+                - gzip
+
+            minimumSize: 1kb
+
+        cache:
+            enabled: false
+            default: public, max-age=3600
+
+        headers:
+            add:
+                X-Frame-Options: SAMEORIGIN
+                X-Content-Type-Options: nosniff
+
+            remove:
+
+        logging:
+            access:
+                enabled: true
+                path: /var/log/rpsiod/example-access.log
+
+            error:
+                enabled: true
+                path: /var/log/rpsiod/example-error.log

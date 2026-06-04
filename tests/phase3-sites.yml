@@ -1,0 +1,155 @@
+sites:
+    -
+        name: Phase3 TLS
+        enabled: true
+        serveAs: https
+
+        match:
+            domains:
+                - phase3.local
+                - localhost
+
+        listen:
+            ip: 127.0.0.1
+            ports:
+                http: 19080
+                https: 19443
+
+        ssl:
+            enabled: true
+            mode: auto
+            provider: local
+            email: admin@example.com
+            storage: /var/lib/rpsiod/ssl/phase3.local
+            challenge: http
+            renewBefore: 30d
+
+        routing:
+            type: static
+
+        static:
+            root: /root/rpsiod/examples/www/example.com
+            index:
+                - index.html
+            fallback:
+            directoryListing: false
+
+        php:
+            enabled: false
+            mode: fpm
+
+            handler:
+                type: socket
+                socket: /run/php/php8.3-fpm.sock
+
+        proxy:
+            upstream:
+                scheme: http
+                host: 127.0.0.1
+                port: 19090
+
+            websocket: true
+
+        security:
+            maxBodySize: 1mb
+            hideServerHeader: true
+            allowSymlinks: false
+            allowedMethods:
+                - GET
+                - HEAD
+    -
+        name: Phase3 PHP
+        enabled: true
+        serveAs: http
+
+        match:
+            domains:
+                - phase3-php.local
+
+        listen:
+            ip: 127.0.0.1
+            ports:
+                http: 19083
+                https: 19444
+
+        routing:
+            type: static
+
+        static:
+            root: /root/rpsiod/tests/php
+            index:
+                - index.php
+            fallback:
+            directoryListing: false
+
+        php:
+            enabled: true
+            mode: fpm
+
+            handler:
+                type: tcp
+                host: 127.0.0.1
+                port: 19091
+
+            security:
+                allowPathInfo: false
+
+            timeouts:
+                connect: 2s
+                read: 5s
+                write: 5s
+
+            limits:
+                maxBodySize: 1mb
+                maxExecutionTime: 10s
+
+        security:
+            maxBodySize: 1mb
+            hideServerHeader: true
+            allowSymlinks: false
+            allowedMethods:
+                - GET
+                - POST
+    -
+        name: Phase3 WebSocket
+        enabled: true
+        serveAs: http
+
+        match:
+            domains:
+                - phase3-ws.local
+
+        listen:
+            ip: 127.0.0.1
+            ports:
+                http: 19084
+                https: 19445
+
+        routing:
+            type: proxy
+
+        proxy:
+            upstream:
+                scheme: http
+                host: 127.0.0.1
+                port: 19092
+
+            websocket: true
+
+            headers:
+                passHost: true
+                realIp: true
+                forwardedFor: true
+                forwardedProto: true
+
+            timeouts:
+                connect: 2s
+                read: 5s
+                write: 5s
+
+        security:
+            maxBodySize: 1mb
+            hideServerHeader: true
+            allowSymlinks: false
+            allowedMethods:
+                - GET

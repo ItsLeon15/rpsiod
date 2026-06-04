@@ -1,0 +1,79 @@
+# Build output
+build/
+obj/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+
+# Project binary
+/rpsiod
+
+# Generated files
+*.log
+*.pid
+*.tmp
+*.temp
+*.bak
+*.backup
+*.backup-*
+*.core
+core
+core.*
+
+# Test and report output
+security-check-results/
+rpsiod-test-results/
+benchmark-results/
+coverage/
+__pycache__/
+*.py[cod]
+*.gcda
+*.gcno
+*.gcov
+
+# Runtime/cache data
+.cache/
+tmp/
+temp/
+
+# Debug/profiling
+perf.data
+perf.data.old
+vgcore.*
+callgrind.out.*
+massif.out.*
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Certificates and keys
+*.key
+*.pem
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# Package artifacts
+*.deb
+*.rpm
+*.tar.gz
+*.zip

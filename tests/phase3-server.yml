@@ -1,0 +1,63 @@
+server:
+    name: rpsiod
+    environment: test
+
+    linux:
+        user: rpsiod
+        group: rpsiod
+        pidFile: /run/rpsiod/rpsiod-phase3.pid
+
+        sockets:
+            reusePort: true
+            tcpFastOpen: true
+            backlog: 128
+
+        limits:
+            openFiles: 4096
+            maxProcesses: 1024
+
+    performance:
+        workers: 1
+        maxConnections: 1000
+
+        keepAlive:
+            enabled: true
+            timeout: 5s
+            maxRequests: 100
+
+        buffers:
+            requestHeader: 16kb
+            response: 64kb
+
+        staticFiles:
+            sendfile: true
+            readAhead: true
+
+    security:
+        hideVersion: true
+        dropPrivileges: false
+        preventCoreDumps: true
+
+    logging:
+        level: info
+        format: text
+
+        access:
+            enabled: true
+            path: /var/log/rpsiod/phase3-access.log
+
+        error:
+            enabled: true
+            path: /var/log/rpsiod/phase3-error.log
+
+    benchmarks:
+        enabled: true
+        listen:
+            ip: 127.0.0.1
+            port: 9191
+
+        storage:
+            path: /var/cache/rpsiod/benchmarks
+
+    config:
+        sitesFile: /etc/rpsiod/sites.yml

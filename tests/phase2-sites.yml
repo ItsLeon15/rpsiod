@@ -1,0 +1,140 @@
+sites:
+    -
+        name: Phase2 Static
+        enabled: true
+        serveAs: http
+
+        match:
+            domains:
+                - phase2-static.local
+
+        listen:
+            ip: 127.0.0.1
+            ports:
+                http: 18080
+                https: 18443
+
+        routing:
+            type: static
+
+        static:
+            root: /root/rpsiod/examples/www/example.com
+            index:
+                - index.html
+            fallback:
+            directoryListing: false
+
+        security:
+            maxBodySize: 1mb
+            hideServerHeader: true
+            allowSymlinks: false
+            allowedMethods:
+                - GET
+                - HEAD
+
+        limits:
+            rateLimit:
+                enabled: true
+                requests: 2
+                window: 10s
+
+        compression:
+            enabled: true
+            algorithms:
+                - gzip
+            minimumSize: 1b
+
+        cache:
+            enabled: true
+            default: public, max-age=60
+
+        headers:
+            add:
+                X-Rpsiod-Test: phase2
+            remove:
+                - Server
+
+    -
+        name: Phase2 Redirect
+        enabled: true
+        serveAs: https
+
+        match:
+            domains:
+                - phase2-redirect.local
+
+        listen:
+            ip: 127.0.0.1
+            ports:
+                http: 18081
+                https: 18443
+
+        redirects:
+            httpToHttps: true
+            www:
+                enabled: true
+                mode: apexToWww
+                status: 301
+
+        routing:
+            type: static
+
+        static:
+            root: /root/rpsiod/examples/www/example.com
+            index:
+                - index.html
+            fallback:
+            directoryListing: false
+
+        security:
+            maxBodySize: 1mb
+            hideServerHeader: true
+            allowSymlinks: false
+            allowedMethods:
+                - GET
+                - HEAD
+
+    -
+        name: Phase2 Proxy
+        enabled: true
+        serveAs: http
+
+        match:
+            domains:
+                - phase2-proxy.local
+
+        listen:
+            ip: 127.0.0.1
+            ports:
+                http: 18082
+                https: 18443
+
+        routing:
+            type: proxy
+
+        proxy:
+            upstream:
+                scheme: http
+                host: 127.0.0.1
+                port: 19090
+
+            websocket: false
+
+            headers:
+                passHost: true
+                realIp: true
+                forwardedFor: true
+                forwardedProto: true
+
+            timeouts:
+                connect: 2s
+                read: 5s
+                write: 5s
+
+        security:
+            maxBodySize: 1mb
+            hideServerHeader: true
+            allowSymlinks: false
+            allowedMethods:
+                - GET
+                - POST

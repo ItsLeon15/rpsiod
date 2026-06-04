@@ -1,0 +1,68 @@
+server:
+    name: rpsiod
+    environment: production
+
+    linux:
+        user: rpsiod
+        group: rpsiod
+        pidFile: /run/rpsiod/rpsiod-example.pid
+
+        sockets:
+            reusePort: true
+            tcpFastOpen: true
+            backlog: 4096
+
+        limits:
+            openFiles: 1048576
+            maxProcesses: 4096
+
+    performance:
+        workers: auto
+        maxConnections: 50000
+
+        keepAlive:
+            enabled: true
+            timeout: 30s
+            maxRequests: 1000
+
+        buffers:
+            requestHeader: 16kb
+            response: 64kb
+
+        staticFiles:
+            sendfile: true
+            readAhead: true
+
+    security:
+        hideVersion: true
+        dropPrivileges: false
+        preventCoreDumps: true
+
+    logging:
+        level: info
+        format: text
+
+        access:
+            enabled: true
+            path: /var/log/rpsiod/access.log
+
+        error:
+            enabled: true
+            path: /var/log/rpsiod/error.log
+
+    benchmarks:
+        enabled: true
+        listen:
+            ip: 127.0.0.1
+            port: 9191
+
+        storage:
+            path: /var/cache/rpsiod/benchmarks
+
+        default:
+            duration: 30s
+            connections: 1000
+            threads: auto
+
+    config:
+        sitesFile: /etc/rpsiod/sites.yml

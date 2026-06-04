@@ -1,0 +1,32 @@
+services:
+  rpsiod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rpsiod:local
+    container_name: rpsiod
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+      - "8443:443"
+      - "9191:9191"
+    volumes:
+      - ./config:/etc/rpsiod
+      - ./docker/www:/var/www/rpsiod-example
+      - ./www/rpsiod-errors:/var/www/rpsiod-errors:ro
+      - rpsiod-cache:/var/cache/rpsiod
+      - rpsiod-logs:/var/log/rpsiod
+      - rpsiod-ssl:/var/lib/rpsiod
+    tmpfs:
+      - /run/rpsiod
+    healthcheck:
+      test: ["CMD-SHELL", "curl -kfsS -H 'Host: localhost' https://127.0.0.1/ >/dev/null || curl -fsS -H 'Host: localhost' http://127.0.0.1/ >/dev/null"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  rpsiod-cache:
+  rpsiod-logs:
+  rpsiod-ssl:
