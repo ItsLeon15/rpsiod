@@ -36,7 +36,7 @@ sites:
             type: static
 
         static:
-            root: /root/rpsiod/examples/www/example.com
+            root: examples/www/example.com
             index:
                 - index.html
                 - index.htm
