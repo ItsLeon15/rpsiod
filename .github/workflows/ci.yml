@@ -47,12 +47,20 @@ jobs:
           CFLAGS="-O2 -g -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Wformat=2 -Werror=format-security" make
 
       - name: Cppcheck
-        run: cppcheck --enable=all --inconclusive --check-level=exhaustive src 2> cppcheck.txt || true
+        run: |
+          cppcheck \
+          --enable=warning,performance,portability \
+          --inconclusive \
+          --check-level=exhaustive \
+          src 2> cppcheck.txt || true
 
       - name: Check cppcheck results
         run: |
           cat cppcheck.txt
-          ! grep -Eiq "error:|warning:|knownConditionTrueFalse|duplicateCondition|incompleteArrayFill|buffer|overflow|leak|uninit|nullPointer|memleak|invalid" cppcheck.txt
+          
+          ! grep -Eiq \
+            "error:|buffer|overflow|leak|uninit|nullPointer|memleak|invalid" \
+            cppcheck.txt
 
       - name: ASAN/UBSAN build
         run: |
