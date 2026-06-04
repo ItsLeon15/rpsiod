@@ -33,7 +33,9 @@ jobs:
           
           sed \
             -e "s|root: examples/www/example.com|root: ${REPO_DIR}/examples/www/example.com|g" \
+            -e "s|root: /absolute/path/to/rpsiod/examples/www/example.com|root: ${REPO_DIR}/examples/www/example.com|g" \
             -e "s|/root/rpsiod/examples/www/errors|${REPO_DIR}/examples/www/errors|g" \
+            -e "s|/absolute/path/to/rpsiod/examples/www/errors|${REPO_DIR}/examples/www/errors|g" \
             examples/sites.yml > examples/sites.ci.yml
 
       - name: Config check
