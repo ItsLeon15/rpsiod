@@ -20,9 +20,6 @@ jobs:
             cppcheck \
             curl \
             libnghttp2-dev \
-            libnghttp3-dev \
-            libngtcp2-dev \
-            libngtcp2-crypto-ossl-dev \
             libssl-dev \
             netcat-openbsd \
             python3
