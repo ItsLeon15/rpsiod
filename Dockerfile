@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     ca-certificates \
     libnghttp2-dev \
-    libnghttp3-dev \
     libngtcp2-dev \
     libngtcp2-crypto-ossl-dev \
     libssl-dev \
@@ -25,7 +24,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     libnghttp2-dev \
-    libnghttp3-dev \
     libngtcp2-dev \
     libngtcp2-crypto-ossl-dev \
     libssl-dev \

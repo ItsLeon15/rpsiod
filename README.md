@@ -49,7 +49,7 @@ Build requirements:
 - `make`
 - OpenSSL development headers
 - nghttp2 development headers
-- ngtcp2/nghttp3 development headers if building the current tree as-is
+- ngtcp2 development headers if building the current tree as-is
 - pthreads and standard Linux system headers
 
 Useful test and diagnostic tools:

@@ -6,7 +6,6 @@
 #include "compress.h"
 #include "http.h"
 #include "http2.h"
-#include "http3.h"
 #include "rate_limit.h"
 #include "security.h"
 #include "route.h"
@@ -2648,7 +2647,6 @@ static int rpsiod_server_run_worker(rpsiod_config *cfg, rpsiod_logger *logger, i
     for (size_t i = 0; i < listener_count; i++) {
         rpsiod_log_error(logger, NULL, "worker %d listening on %s port %u", worker_id, listeners[i].tls ? "HTTPS" : "HTTP", listeners[i].port);
     }
-    rpsiod_http3_log_status(cfg, logger);
 
     client_object *clients_head = NULL;
     struct epoll_event events[RPSIOD_MAX_EVENTS];

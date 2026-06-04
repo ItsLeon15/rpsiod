@@ -4,7 +4,6 @@
 
 #include "status.h"
 #include "config.h"
-#include "http3.h"
 #include "proxy.h"
 #include "util.h"
 
@@ -195,7 +194,7 @@ int rpsiod_status_main(int argc, char **argv) {
            cfg->open_file_cache_max);
     for (size_t i = 0; i < cfg->site_count; i++) {
         rpsiod_site_config *site = &cfg->sites[i];
-        printf("site: %s enabled=%s routing=%s http=%u https=%u ssl=%s http2=%s http3=%s php-fpm=%s proxy=%s\n",
+        printf("site: %s enabled=%s routing=%s http=%u https=%u ssl=%s http2=%s php-fpm=%s proxy=%s\n",
                site->name,
                site->enabled ? "true" : "false",
                site->routing_type,
@@ -203,7 +202,6 @@ int rpsiod_status_main(int argc, char **argv) {
                site->https_port,
                site->ssl_enabled ? "enabled" : "disabled",
                site->ssl_enabled ? "enabled" : "disabled",
-               site->ssl_enabled && rpsiod_http3_library_available() ? "libraries-ready" : "disabled",
                php_ok(site) ? "ok" : "failed",
                rpsiod_streq_ci(site->routing_type, "proxy") ? (proxy_ok(site) ? "ok" : "failed") : "n/a");
     }

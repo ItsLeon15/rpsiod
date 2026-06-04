@@ -6,7 +6,6 @@ Scope:
 
 - `src/http.c`
 - `src/http2.c`
-- `src/http3.c`
 - `src/php.c`
 - `src/proxy.c`
 - `src/tls.c`
@@ -25,7 +24,6 @@ None open.
 
 ## Low Findings
 
-- `src/http3.c`: HTTP/3 support remains experimental and should not be described as production-ready. Current public documentation notes this limitation.
 - `src/proxy.c`: reverse proxy support is intentionally limited to HTTP upstreams. Public documentation notes that HTTPS upstream proxying is unsupported.
 - `src/tls.c`: automatic TLS generation currently creates local self-signed certificates when configured certificate material is absent. Public documentation notes that public ACME issuance is not implemented.
 
