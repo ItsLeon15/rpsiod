@@ -5,11 +5,6 @@ CPPFLAGS := -D_GNU_SOURCE
 LDFLAGS ?=
 LDLIBS ?=
 RPSIOD_LDLIBS = -pthread -lssl -lcrypto -ldl -lnghttp2
-
-ifeq ($(WITH_HTTP3),1)
-    RPSIOD_LDLIBS += -lnghttp3 -lngtcp2 -lngtcp2_crypto_ossl
-endif
-
 BIN := build/rpsiod
 OBJDIR := build/obj
 SRC := $(wildcard src/*.c)
