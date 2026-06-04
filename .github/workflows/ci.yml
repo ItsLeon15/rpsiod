@@ -27,8 +27,44 @@ jobs:
       - name: Build
         run: make
 
+      - name: Prepare CI config paths
+        run: |
+          REPO_DIR="$(pwd)"
+
+          python3 - <<'PY'
+            from pathlib import Path
+
+            repo = Path.cwd()
+            sites = repo / "examples" / "sites.yml"
+
+            text = sites.read_text()
+            text = text.replace(
+                "root: examples/www/example.com",
+                f"root: {repo}/examples/www/example.com"
+            )
+            text = text.replace(
+                "page: /root/rpsiod/examples/www/errors/maintenance.html",
+                f"page: {repo}/examples/www/errors/maintenance.html"
+            )
+            text = text.replace(
+                "404: /root/rpsiod/examples/www/errors/404.html",
+                f"404: {repo}/examples/www/errors/404.html"
+            )
+            text = text.replace(
+                "500: /root/rpsiod/examples/www/errors/500.html",
+                f"500: {repo}/examples/www/errors/500.html"
+            )
+            text = text.replace(
+                "503: /root/rpsiod/examples/www/errors/maintenance.html",
+                f"503: {repo}/examples/www/errors/maintenance.html"
+            )
+
+            ci_sites = repo / "examples" / "sites.ci.yml"
+            ci_sites.write_text(text)
+          PY
+
       - name: Config check
-        run: make check
+        run: ./build/rpsiod config-check --server examples/server.yml --sites examples/sites.ci.yml
 
       - name: Warning build
         run: |

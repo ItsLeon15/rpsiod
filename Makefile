@@ -23,7 +23,14 @@ $(OBJDIR)/%.o: src/%.c src/*.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARNINGS) -c $< -o $@
 
 check: all
-	./$(BIN) config-check --server examples/server.yml --sites examples/sites.yml
+	@repo_dir="$$(pwd)"; \
+	tmp_sites="build/sites.check.yml"; \
+	install -d build; \
+	sed \
+		-e "s|root: examples/www/example.com|root: $$repo_dir/examples/www/example.com|g" \
+		-e "s|/root/rpsiod/examples/www/errors|$$repo_dir/examples/www/errors|g" \
+		examples/sites.yml > "$$tmp_sites"; \
+	./$(BIN) config-check --server examples/server.yml --sites "$$tmp_sites"
 
 install: all
 	getent group rpsiod >/dev/null || groupadd --system rpsiod

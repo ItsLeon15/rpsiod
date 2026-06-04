@@ -37,7 +37,7 @@ sites:
             type: static
 
         static:
-            root: /var/www/rpsiod-example
+            root: /absolute/path/to/rpsiod/examples/www/example.com
             index:
 #                - index.php
                 - index.html
