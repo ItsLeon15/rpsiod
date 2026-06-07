@@ -1,40 +1,27 @@
 # rpsiod
 
-`rpsiod` is a Linux-only C web server focused on static files, PHP-FPM, HTTPS, HTTP/2, reverse proxying, WebSocket tunneling, and operational diagnostics.
+rpsiod (pronounced "Rip-see-oid") is an experimental C-based web server for Linux, designed for static file serving, PHP-FPM, HTTPS, HTTP/2, reverse proxying, WebSocket tunneling, and operational diagnostics.
 
-This repository is source-first. Generated binaries, object files, benchmark reports, sanitizer output, and security-check reports are intentionally excluded from version control.
+It is built around an epoll-based HTTP/1.1 core, OpenSSL TLS support, nghttp2 HTTP/2 support, sendfile static delivery, FastCGI/PHP-FPM integration, virtual hosts, security-focused request validation, and built-in tooling for testing, tracing, benchmarking, and diagnostics.
+
+The project is currently in developer beta and should not be used in production environments.
 
 ## Status
 
 `rpsiod` is under active development. It is intended for Linux hosts and systemd-based deployments.
 
-Implemented:
+## Features
 
-- epoll-based HTTP/1.1 serving
+- C-based Linux web server
+- Static file serving with `sendfile`
 - HTTPS with OpenSSL
 - HTTP/2 over TLS using nghttp2
-- static file serving with `sendfile`
-- range requests, cache validators, compression, and keep-alive
-- PHP-FPM/FastCGI over Unix sockets or TCP
-- reverse proxying for HTTP upstreams
-- WebSocket upgrade proxy tunneling
-- host-based virtual site selection
-- path decoding, root containment, dotfile and sensitive-file blocking
-- malformed request rejection and request smuggling defenses
-- configurable security headers and header removal
-- fixed-window per-IP rate limiting
-- access/error logging, PID files, config validation, and doctor checks
-- built-in benchmark and trace commands
-- regression tests and an automated security checker
-
-Not implemented or intentionally limited:
-
-- public ACME/Let's Encrypt issuance is not performed by this build
-- HTTPS upstream proxying is not currently supported
-- HTTP/3 code is experimental and should not be presented as production-ready
-- nested config directories such as `/etc/rpsiod/sites-enabled/` are unsupported
-
-The `ssl.provider` field is present for configuration compatibility, but automatic SSL currently generates local self-signed certificates in the configured `ssl.storage` path when needed.
+- PHP-FPM/FastCGI support
+- Reverse proxy support
+- WebSocket proxy tunneling
+- Virtual host configuration
+- Built-in config validation, doctor checks, tracing, and benchmarking
+- Security-focused request parsing and path validation
 
 ## License
 
